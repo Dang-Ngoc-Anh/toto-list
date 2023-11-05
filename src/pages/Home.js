@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Item from "../components/Item/Item";
 import ItemList from "../components/ItemList/ItemList";
 
-const Home = () => {
-  return <ItemList />;
+const Home = ({ data }) => {
+  return <ItemList data={data} />;
 };
 
 export default Home;
