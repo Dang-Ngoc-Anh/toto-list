@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,7 +50,7 @@
     align-items: center;
     margin: auto;
     border: 1px solid black;
-    width: 500px;
+    width: 600px;
     margin-top: 100px;
     border: 1px solid gray;
     border-radius: 10px;
@@ -72,4 +73,3 @@
   }
 
 
-  

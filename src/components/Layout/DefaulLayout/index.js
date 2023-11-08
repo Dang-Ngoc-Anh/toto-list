@@ -25,9 +25,9 @@ function DefaultLayout({ children }) {
   });
   return (
     <div className="container">
-      <Header handleKeyUp={handleKeyUp} />
+      {/* <Header handleKeyUp={handleKeyUp} />
       <div className="body">{childrenWithProps}</div>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }

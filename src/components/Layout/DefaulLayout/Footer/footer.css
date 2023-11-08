@@ -3,7 +3,6 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    background-color:white
 }
 
 .footer-center .btn , .footer-right .btn{
@@ -18,8 +17,4 @@
     background: rgb(227, 154, 146);
 
     cursor: pointer;
-}
-.footer .footer-left{
-    color: rgb(80, 79, 79);
-    font-size: 13px;
 }
