@@ -5,10 +5,9 @@ const Item = ({ props, handleDelete,handleChangeState,requestUpdate,data,index})
   const { id, name, done } = props
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
-  const [dataCoppy , setDataCoppy] = useState([]);
+  const [dataCoppy , setDataCoppy] = useState(data);
   const handleSort = () => {
     //duplicate items
-    setDataCoppy(data)
     let _data = [...dataCoppy];
 
     //remove and save the dragged item content
@@ -23,11 +22,12 @@ const Item = ({ props, handleDelete,handleChangeState,requestUpdate,data,index})
 
     //update the actual array
     setDataCoppy(_data);
+    console.log(dataCoppy);
   };
   return (
     <div 
       className={`item `} 
-      key={id} 
+      key={index} 
       draggable
       onDragStart={(e) => (dragItem.current = index)}
       onDragEnter={(e) => (dragOverItem.current = index)}
@@ -44,7 +44,7 @@ const Item = ({ props, handleDelete,handleChangeState,requestUpdate,data,index})
           handleChangeState(e,id)
           }}
       />
-      <div className={done === actionStatus.COMPLETE ? "complete" : ""} >
+      <div className={done === actionStatus.COMPLETE ? "complete" : ""} onClick={() => requestUpdate(id,name)}>
         {name}
       </div>
       <div>
