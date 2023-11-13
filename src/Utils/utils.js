@@ -1,8 +1,8 @@
 
 export const actionStatus = {
   ALL: "all",
-  ACTIVCE: "activce",
-  COMPLETE: "complete",
+  ACTIVCE: false,
+  COMPLETE: true,
   CLEAR_COMPLETE: "clear complete",
   UPDATE: "update",
   DELETE: "delete",
