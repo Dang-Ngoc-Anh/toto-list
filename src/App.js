@@ -1,80 +1,28 @@
 import Header from "./components/Layout/DefaulLayout/Header/Header";
 import ItemList from "./components/ItemList/ItemList";
 import Footer from "./components/Layout/DefaulLayout/Footer/Footer";
-import Data from './Data/data.json'
-import { actionStatus } from "./Utils/utils";
-import {  cloneElement, useEffect, useRef, useState } from "react";
+import {useContext, useRef, useState} from "react";
+import Toggle from "./components/Toggle/Toggle";
+import {ThemeContext} from "./components/Theme/ThemeContext";
+import { THEME } from "./Utils/utils";
+import './style/toggle.css'
 function App() {
-  const [data , setData] = useState(Data);
-  const [dataCurrent , setDatacurrent] = useState([]);
   const inputRef = useRef();
-  useEffect(() => setDatacurrent(data) ,[data])
-  // add value to data
-  const addDataByInput = (id,obj) => {
-    if(id) {
-      const updatedData = data.map(item =>
-        item.id === id ? { ...item, name:obj.name } : item
-      );
-      setData(updatedData);
-    }else
-      setData([...data, obj]);
-  }
+  const listRef = useRef();
+  // Theme
+  const {theme} = useContext(ThemeContext);
+  const requestUpdate = (id)=> inputRef.current.changeTodoByInput(id);
+  const filterData = (data) => listRef.current.displayDataFilter(data);
   
-  const handleDelete = (id) =>{
-    const dataCoppy = data.filter(item => item.id !== id);
-    setData(dataCoppy) 
-  }
-
-
-  const requestUpdate = (id,value)=> inputRef.current.changeTodoByInput(id ,value);
-
-  const handleChangeState = (e,id)=>{
-    const checked = e.currentTarget.checked;
-    const dataCoppy = data.map(item => 
-      {
-        if(item.id === id){
-          return {
-            ...item,
-            done: checked ? actionStatus.COMPLETE : actionStatus.ACTIVCE
-          }
-        }else{
-          return item
-        }
-      }
-    );
-    setData(dataCoppy)
-  }
-  const switchAction = (act)=>{
-    switch (act) {
-      case actionStatus.ALL:
-        setDatacurrent(data)
-        break;
-      case actionStatus.ACTIVCE:
-        setDatacurrent(data.filter(item => !item.done))   
-        break
-      case actionStatus.COMPLETE:
-        setDatacurrent(data.filter(item => item.done ))
-        break;
-      case actionStatus.CLEAR_COMPLETE:
-        return setDatacurrent(data.filter(item => item.done)
-        .map(item => item.done = actionStatus.ACTIVCE)  )    
-      default:
-        break;
-    }
-  }
-  const props={
-    data: data,
-    handleDelete:handleDelete,
-    handleChangeState:handleChangeState,
-    requestUpdate:requestUpdate
-  }
-
   return ( 
-    <div className="container">
-        <Header addDataByInput={addDataByInput} ref={inputRef} />
-        <ItemList props={props}/>
-        <Footer switchAction={switchAction} data={props.data}/>
+   <div className={`toggle-${theme === THEME.dark ? THEME.dark : THEME.light }`}>
+    <Toggle />
+     <div className = {`container ${theme}`}>
+        <Header ref={inputRef} />
+        <ItemList requestUpdate={requestUpdate} ref={listRef}/>
+        <Footer filterData={filterData}/>
     </div>
+   </div>
   );
 }
 

@@ -38,9 +38,7 @@
     cursor: pointer;
     margin-left: 10px;
 }
-.item .checkbox:checked{
-    background-color: brown;
-}
+
 
 .item div .btn{
     margin: 2px;

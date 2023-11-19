@@ -15,4 +15,13 @@ export const THEME = {
   dark: "dark",
 };
 
+// export const instance = {
+  
+// }
 
+export const method = {
+  get: "GET",
+  post: "POST",
+  put: "PUT",
+  delete: "DELETE"
+}

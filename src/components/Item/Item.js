@@ -1,54 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
 import { actionStatus } from "../../Utils/utils";
 import "./item.css";
-const Item = ({ props, handleDelete,handleChangeState,requestUpdate,data,index}) => {
+import { changeStatus, deleteDataById, putDataById } from "../../store/actions/actionsData";
+import { useDispatch, useSelector } from "react-redux";
+import { getResultInput } from "../../store/actions/actionInput";
+const Item = ({ props,requestUpdate}) => {
+  
+  // store all app
+  const dispatch = useDispatch();
   const { id, name, done } = props
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
-  const [dataCoppy , setDataCoppy] = useState(data);
-  const handleSort = () => {
-    //duplicate items
-    let _data = [...dataCoppy];
 
-    //remove and save the dragged item content
-    const draggedItemContent = _data.splice(dragItem.current, 1)[0];
-
-    //switch the position
-    _data.splice(dragOverItem.current, 0, draggedItemContent);
-
-    //reset the position ref
-    dragItem.current = null;
-    dragOverItem.current = null;
-
-    //update the actual array
-    setDataCoppy(_data);
-    console.log(dataCoppy);
-  };
+  const handleDelete = (id)=>{
+    dispatch(deleteDataById(id));
+  }
+  const handleUpdate = (result)=>{
+    dispatch(getResultInput(result));
+  }
   return (
     <div 
-      className={`item `} 
-      key={index} 
-      draggable
-      onDragStart={(e) => (dragItem.current = index)}
-      onDragEnter={(e) => (dragOverItem.current = index)}
-      onDragEnd={handleSort}
-      onDragOver={(e) => e.preventDefault()}
-      >
+      className={`item `} >
       <div className="item__target flex justify-between" >
       <input
         type="checkbox"
         className={`checkbox ${
-          done === actionStatus.COMPLETE ? "input__complete" : " "
+          done === actionStatus.COMPLETE ? "input__complete" : ""
         }`}
         onChange={(e) => {
-          handleChangeState(e,id)
+          let checked = e.currentTarget.checked;
+          dispatch(changeStatus(id,checked));
           }}
       />
-      <div className={done === actionStatus.COMPLETE ? "complete" : ""} onClick={() => requestUpdate(id,name)}>
+      <div className={done === actionStatus.COMPLETE ? "complete" : ""} onClick={() =>{
+          requestUpdate(id);
+          handleUpdate(name)}}>
         {name}
       </div>
       <div>
-        <button className="btn btn-update px-2" onClick={() => requestUpdate(id,name)}>
+        <button className="btn btn-update px-2" onClick={() => {
+          requestUpdate(id);
+          handleUpdate(name)}}
+          >
           <i class="fa-solid fa-pen"></i>
         </button>
         <button className="btn btn-delete px-2" onClick={()=>handleDelete(id)}>

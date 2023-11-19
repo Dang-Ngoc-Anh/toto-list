@@ -2,32 +2,44 @@ import React, {  forwardRef, useEffect, useImperativeHandle, useRef, useState } 
 import uuid from "react-uuid";
 import "./header.css";
 import { actionStatus } from "../../../../Utils/utils";
-const Header = ({addDataByInput,updateTodo},ref) => {
+import { useDispatch, useSelector } from "react-redux";
+import { postData, putDataById } from "../../../../store/actions/actionsData";
+const Header = (props,ref) => {
+  const dispatch = useDispatch();
+  const {reducerInput} = useSelector(state => state);
   const [result , setResult ] = useState('');
   const [idUpdate, setIdUpdate] = useState()
   const inputRef = useRef();
+
   const handleKeyUp = (e,result) =>{
     const objInput = {
       id: uuid(),
       name: result,
       done: actionStatus.ACTIVCE,
     };
-    if (e.keyCode === 13) {
-      result ? addDataByInput(idUpdate,objInput) : alert("ban chu nhap");
-      setIdUpdate(undefined)    
-      setResult('')
-    }
+    if (e.keyCode === 13 && result) {
+      if(reducerInput) {
+        dispatch(putDataById(idUpdate,result));
+        setIdUpdate(undefined)
+        inputRef.current.focus();
+      }else 
+        dispatch(postData(objInput));
+        setResult('');
+    } else
+        inputRef.current.focus();
   }
 
   useImperativeHandle(ref, () => ({
-    changeTodoByInput(id,value){
-      setResult(null);
-      setResult(value)
+    changeTodoByInput(id){
       setIdUpdate(id);
       inputRef.current.focus();
     },
   }));
 
+  useEffect(() =>
+    setResult(reducerInput)
+  ,[reducerInput])
+  
   return (
     <div className={`header`}>
       <h1 className="text-2xl font-bold">Todo</h1>
