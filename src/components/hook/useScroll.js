@@ -1,4 +1,4 @@
-import { createRef, useEffect, useState } from "react"
+import {useEffect, useState } from "react"
 
 export const useSroll = (data , ref)=>{
   const [dataScroll , setDataScroll] = useState(data);

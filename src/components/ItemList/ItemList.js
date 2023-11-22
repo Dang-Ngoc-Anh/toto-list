@@ -1,10 +1,8 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import Item from "../Item/Item";
 import "./item-list.css";
 import { useSelector } from "react-redux";
 import {useSroll} from '../hook/useScroll'
-import { logDOM } from "@testing-library/react";
-let isGreeting = false;
 const ItemList = (props ,ref) => {
   const listItemRef = useRef();
   const {requestUpdate} = props

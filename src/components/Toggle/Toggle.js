@@ -3,7 +3,6 @@ import { Theme, ThemeContext } from '../Theme/ThemeContext';
 import { useContext, useEffect } from 'react';
 const Toggle = () => {
     const {theme , changeTheme} = useContext(ThemeContext);
-    useEffect(() => console.log(theme) ,[theme])
     return (
         <div>
         <label for="theme" class="theme">

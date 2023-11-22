@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { actionStatus } from "../../Utils/utils";
 import "./item.css";
-import { changeStatus, deleteDataById, putDataById } from "../../store/actions/actionsData";
-import { useDispatch, useSelector } from "react-redux";
-import { getResultInput } from "../../store/actions/actionInput";
+import { changeStatus, deleteDataById } from "../../store/actions/actionsData";
+import { useDispatch } from "react-redux";
 const Item = ({ props,requestUpdate}) => {
   
   // store all app
@@ -13,9 +12,12 @@ const Item = ({ props,requestUpdate}) => {
   const handleDelete = (id)=>{
     dispatch(deleteDataById(id));
   }
-  const handleUpdate = (result)=>{
-    dispatch(getResultInput(result));
+
+  const handleUpdate = (id ,name)=>{
+    debugger  
+    requestUpdate(id,name);
   }
+
   return (
     <div 
       className={`item `} >
@@ -30,15 +32,9 @@ const Item = ({ props,requestUpdate}) => {
           dispatch(changeStatus(id,checked));
           }}
       />
-      <div className={done === actionStatus.COMPLETE ? "complete" : ""} onClick={() =>{
-          requestUpdate(id);
-          handleUpdate(name)}}>
-        {name}
-      </div>
+      <div className={done === actionStatus.COMPLETE ? "complete" : ""} >{name}</div>
       <div>
-        <button className="btn btn-update px-2" onClick={() => {
-          requestUpdate(id);
-          handleUpdate(name)}}
+        <button className="btn btn-update px-2" onClick={() => handleUpdate(id,name)}
           >
           <i class="fa-solid fa-pen"></i>
         </button>
