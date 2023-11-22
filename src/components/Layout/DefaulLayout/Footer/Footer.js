@@ -1,29 +1,23 @@
 import React from "react";
 import './footer.css'
-import { useDispatch, useSelector } from "react-redux";
-import { getDataAcive, getDataAll, getDataComplete } from "../../../../store/actions/actionDataFilter";
+import {useSelector ,useDispatch } from "react-redux";
 import { clearStatus } from "../../../../store/actions/actionsData";
 const Footer = (props) => {
-  const {reducerData ,reducerDataFilter} = useSelector(state => state);
-  const dispatch = useDispatch();
+  const {reducerData} = useSelector(state => state);
   const {filterData} = props
-
+  const dispatch = useDispatch();
   const filterAll = ()=>{
-    dispatch(getDataAll(reducerData));
-    filterData(reducerDataFilter.all)
-
+      return filterData(reducerData);
   }
   const filterActive = ()=>{
     const dataActive = reducerData.filter(item => !item.done)
-    dispatch(getDataAcive(dataActive));
-    filterData(reducerDataFilter.active);
+    return filterData(dataActive);
+
   } 
   
   const filterComplete = ()=>{
     const dataComplete = reducerData.filter(item => item.done)
-    dispatch(getDataComplete(dataComplete));
-    filterData(reducerDataFilter.complete);
-
+    return filterData(dataComplete);
   }
 
   const filterClearComplete = ()=>{

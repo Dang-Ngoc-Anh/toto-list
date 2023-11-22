@@ -13,7 +13,6 @@ function App() {
   const {theme} = useContext(ThemeContext);
   const requestUpdate = (id)=> inputRef.current.changeTodoByInput(id);
   const filterData = (data) => listRef.current.displayDataFilter(data);
-  
   return ( 
    <div className={`toggle-${theme === THEME.dark ? THEME.dark : THEME.light }`}>
     <Toggle />

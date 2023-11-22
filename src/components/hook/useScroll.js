@@ -32,5 +32,5 @@ export const useSroll = (data , ref)=>{
       },[isLoading])
   
     useEffect(()=> setDataScroll(data) , [data]);
-    return {dataScroll ,isGreeting};
+    return {dataScroll ,setDataScroll ,isGreeting};
 }

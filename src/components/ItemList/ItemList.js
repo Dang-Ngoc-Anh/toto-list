@@ -9,13 +9,17 @@ const ItemList = (props ,ref) => {
   const listItemRef = useRef();
   const {requestUpdate} = props
   const {reducerData:dataStore} = useSelector(state => state);
-  let {dataScroll ,isGreeting} = useSroll(dataStore , listItemRef)
+  let {
+    dataScroll ,
+    setDataScroll,
+    isGreeting
+  } = useSroll(dataStore , listItemRef)
 
-  // useImperativeHandle(ref, () => ({
-  //   displayDataFilter(data){
-  //     dataScroll = data;
-  //   }
-  // }));
+  useImperativeHandle(ref, () => ({
+    displayDataFilter(data){
+      setDataScroll(data);
+    }
+  }));
 
   // console.log(dataScroll);
 
