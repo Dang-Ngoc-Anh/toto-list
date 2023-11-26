@@ -3,10 +3,12 @@ import { actionStatus } from "../../Utils/utils";
 import "./item.css";
 import { changeStatus, deleteDataById } from "../../store/actions/actionsData";
 import { useDispatch } from "react-redux";
-const Item = ({ props,requestUpdate ,position}) => {
+import { produce } from "immer";
+const Item = ({ props,requestUpdate }) => {
   const { id, name, done } = props
   const itemRef = useRef(null);
   const isChecked  = useRef(false);
+  let style = {};
   // store all app
   const dispatch = useDispatch();
 
@@ -18,10 +20,24 @@ const Item = ({ props,requestUpdate ,position}) => {
     requestUpdate(id,name);
   }
  
+  const move = (e)=>{
+      const {clientX , clientY} = e
+        style = {
+          position:'fixed',
+          top:clientY,
+          let:clientX,
+        }
+  }
+  const handleMoveDown = (e)=>{
+    itemRef.current.addEventListener("mousemove" , move)
+  }
   return (
     <div className={`item`}
       draggable={true}
       ref={itemRef}
+      onMouseDown={handleMoveDown}
+      style={style}
+      onDragOver={e => e.preventDefault()}
     >
       <div className="item__target relative flex justify-between">
         <input

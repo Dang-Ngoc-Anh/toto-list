@@ -12,8 +12,6 @@
 }
 
 .item .item__target{
-    position: absolute;
-    border: 1px solid gray;
 }
 .item div {
     margin-right: 10px;
