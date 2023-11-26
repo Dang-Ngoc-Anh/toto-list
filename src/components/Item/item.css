@@ -2,11 +2,18 @@
     width: 100%;
     border-bottom: 1px solid rgb(228, 218, 218);
     padding: 5px;
+    cursor: pointer;
+    height: 40px;
+    position: relative;
 }
-.item:hover{
+.item .item__target:hover{
  background: rgb(221, 213, 213);
  transition: all ease-in 0.4s;
- cursor: pointer;
+}
+
+.item .item__target{
+    position: absolute;
+    border: 1px solid gray;
 }
 .item div {
     margin-right: 10px;

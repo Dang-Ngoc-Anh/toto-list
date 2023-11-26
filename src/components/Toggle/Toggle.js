@@ -1,8 +1,8 @@
 import './toggle.css'
-import { Theme, ThemeContext } from '../Theme/ThemeContext';
-import { useContext, useEffect } from 'react';
+import {ThemeContext } from '../Theme/ThemeContext';
+import { useContext } from 'react';
 const Toggle = () => {
-    const {theme , changeTheme} = useContext(ThemeContext);
+    const {changeTheme} = useContext(ThemeContext);
     return (
         <div>
         <label for="theme" class="theme">

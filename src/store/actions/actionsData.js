@@ -36,6 +36,6 @@ export const changeStatus = (id ,checked) =>{
 
 export const clearStatus = () =>{
     return {
-        type:`${method.put}/clear-done`,
+        type:`${method.put}/restore-done`,
     }
 }

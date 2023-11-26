@@ -10,6 +10,7 @@
     width: 100%;
     height: 200px;
     overflow-y: auto;
+    position: relative ;
 }
 .body .item{
     width: 100%;

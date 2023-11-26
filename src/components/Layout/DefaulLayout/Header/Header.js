@@ -7,7 +7,7 @@ import { postData, putDataById } from "../../../../store/actions/actionsData";
 const Header = (props,ref) => {
   const dispatch = useDispatch();
   const [result , setResult ] = useState('');
-  const [idUpdate, setIdUpdate] = useState(-1);
+  const [idUpdate, setIdUpdate] = useState(undefined);
   const inputRef = useRef();
 
   const handleKeyUp = (e,result) =>{
@@ -22,9 +22,13 @@ const Header = (props,ref) => {
         setIdUpdate(undefined)
         inputRef.current.focus();
       }else 
-        dispatch(postData(objInput));
-        setResult('');
-    }
+          {
+            dispatch(postData(objInput));
+            setResult('');
+          }
+    }else
+      inputRef.current.focus();
+
   }
 
   useImperativeHandle(ref, () => ({

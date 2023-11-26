@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import './footer.css'
 import {useSelector ,useDispatch } from "react-redux";
 import { clearStatus } from "../../../../store/actions/actionsData";
 const Footer = (props) => {
-  const {reducerData} = useSelector(state => state);
+  const reducerData = useSelector(state => state.reducerData);
+  const  [count ,setCount] = useState(0);
   const {filterData} = props
   const dispatch = useDispatch();
   const filterAll = ()=>{
+      setCount(reducerData.length)
       return filterData(reducerData);
   }
   const filterActive = ()=>{
     const dataActive = reducerData.filter(item => !item.done)
+    setCount(dataActive.length)
     return filterData(dataActive);
 
   } 
   
   const filterComplete = ()=>{
     const dataComplete = reducerData.filter(item => item.done)
+    setCount(dataComplete.length)
     return filterData(dataComplete);
   }
 
@@ -26,7 +30,7 @@ const Footer = (props) => {
 
   return (
     <div className="footer bg-cyan-800">
-      <div className="footer-left text-1xl text-white ">{reducerData.length} item</div>
+      <div className="footer-left text-1xl text-white ">{count} item</div>
       <div className="footer-center">
         <button className="btn btn-all px-3"onClick={()=>filterAll()} >All</button>
         <button className="btn btn-active px-3" onClick={()=>filterActive()}>Active</button>
