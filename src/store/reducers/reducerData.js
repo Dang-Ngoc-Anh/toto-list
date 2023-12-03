@@ -7,7 +7,8 @@ export const reducerData = (state = data , action)=>{
             case method.get:
                 return draft;
             case method.post:
-                return void(draft.unshift(action.payload));
+                (draft.unshift(action.payload));
+                break;
             case method.delete:
                 return draft.filter( item => item.id !== action.payload);
             case method.put:

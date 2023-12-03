@@ -25,3 +25,7 @@ export const method = {
   put: "PUT",
   delete: "DELETE"
 }
+
+
+// api url
+export const urlTodo = "https://656c4e1ee1e03bfd572e2cf8.mockapi.io/api/v1/todo";

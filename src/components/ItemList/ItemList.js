@@ -3,10 +3,16 @@ import Item from "../Item/Item";
 import "./item-list.css";
 import { useSelector } from "react-redux";
 import {useSroll} from '../hook/useScroll'
+import useFetch from "../hook/useFetch";
+import { urlTodo } from "../../Utils/utils";
 const ItemList = (props ,ref) => {
   const listItemRef = useRef();
   const {requestUpdate} = props
-  const {reducerData:dataStore} = useSelector(state => state);
+  const dataStore = useSelector(state => state.reducerData);
+  const {data:todos , loading , err} = useFetch(urlTodo);
+  console.log(todos);
+  console.log(loading);
+  console.log(err);
   let {
     dataScroll ,
     setDataScroll,
@@ -19,13 +25,12 @@ const ItemList = (props ,ref) => {
     }
   }));
 
-  // console.log(dataScroll);
 
   return (
     <div className="list__item" ref={listItemRef}>
-      {dataScroll.map((item) => (
-          <Item props={item} key={item.id} requestUpdate={requestUpdate}/>
-      ))}
+      {loading && <h4 className='text-center'>Loading.....</h4>}
+      {err && <h4 className='text-center'>{err}</h4>}
+      {!loading && !err && <>{todos.map(item => <Item props={item} key={item.id} requestUpdate={requestUpdate}/> )}</>}
       {isGreeting && <div style={{ textAlign: 'center', padding: '20px' }}>Loading...</div>}
     </div>
   );
