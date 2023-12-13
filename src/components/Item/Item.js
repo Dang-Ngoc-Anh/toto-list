@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { actionStatus } from "../../Utils/utils";
+import { DELETE_REQUEST, actionStatus } from "../../Utils/utils";
 import "./item.css";
 import { changeStatus, deleteDataById } from "../../store/actions/actionsData";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,7 @@ const Item = ({ props,requestUpdate }) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id)=>{
-    dispatch(deleteDataById(id));
+    dispatch({type:DELETE_REQUEST,payload:id});
   }
 
   const handleUpdate = (id ,name)=>{

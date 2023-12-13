@@ -4,11 +4,10 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import GlobalStyles from "./components/GlobalStyles";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import allReducers from './store/reducers/index'
 import {Theme} from "./components/Theme/ThemeContext";
+import { store } from "./store/store";
 
-const store = createStore(allReducers);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>

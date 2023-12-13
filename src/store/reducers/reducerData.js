@@ -1,6 +1,8 @@
-import { actionStatus, method } from "../../Utils/utils";
+import { FETCH_POSTS_FAILURE, FETCH_POSTS_REQUEST, FETCH_POSTS_SUCCESS, actionStatus, method } from "../../Utils/utils";
 import data from '../../Data/data.json'
 import {produce}from 'immer'
+
+
 export const reducerData = (state = data , action)=>{
     return produce(state , draft => {
         switch (action.type) {

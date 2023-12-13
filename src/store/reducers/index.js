@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
 
 import reducerData from "./reducerData";
+import reducerDataWithSaga from "./reducerDataWithSaga";
 
 const allReducers = combineReducers({
-    reducerData,
+    todos : reducerDataWithSaga,
 });
 
 export default allReducers

@@ -1,7 +1,7 @@
 import React, {  forwardRef, useImperativeHandle, useRef, useState } from "react";
 import uuid from "react-uuid";
 import "./header.css";
-import { actionStatus } from "../../../../Utils/utils";
+import { POST_REQUEST, actionStatus } from "../../../../Utils/utils";
 import { useDispatch } from "react-redux";
 import { postData, putDataById } from "../../../../store/actions/actionsData";
 const Header = (props,ref) => {
@@ -12,7 +12,6 @@ const Header = (props,ref) => {
 
   const handleKeyUp = (e,result) =>{
     const objInput = {
-      id: uuid(),
       name: result,
       done: actionStatus.ACTIVCE,
     };
@@ -23,7 +22,7 @@ const Header = (props,ref) => {
         inputRef.current.focus();
       }else 
           {
-            dispatch(postData(objInput));
+            dispatch({type:POST_REQUEST , payload: objInput});
             setResult('');
           }
     }else
