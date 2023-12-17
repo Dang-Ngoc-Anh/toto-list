@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { DELETE_REQUEST, actionStatus } from "../../Utils/utils";
+import { DELETE_REQUEST, PUT_REQUEST, UPDATE_DONE_REQUEST, actionStatus } from "../../Utils/utils";
 import "./item.css";
 import { changeStatus, deleteDataById } from "../../store/actions/actionsData";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import { produce } from "immer";
 const Item = ({ props,requestUpdate }) => {
   const { id, name, done } = props
   const itemRef = useRef(null);
-  const isChecked  = useRef(false);
+  const isCheckedRef  = useRef(false);
   let style = {};
   // store all app
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Item = ({ props,requestUpdate }) => {
   }
 
   const handleUpdate = (id ,name)=>{
-    requestUpdate(id,name);
+    requestUpdate({id,name})
   }
  
   const move = (e)=>{
@@ -46,8 +46,8 @@ const Item = ({ props,requestUpdate }) => {
             done === actionStatus.COMPLETE ? "input__complete" : ""
           }`}
           onChange={(e) => {
-            let checked = e.currentTarget.checked;
-            dispatch(changeStatus(id,checked));
+            isCheckedRef.current =  e.currentTarget.checked;
+            dispatch({type:UPDATE_DONE_REQUEST , payload:{id,done:isCheckedRef.current}});
             }}
         />
       <div className={done === actionStatus.COMPLETE ? "complete" : ""} >{name}</div>

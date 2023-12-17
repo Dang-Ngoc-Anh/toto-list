@@ -23,7 +23,7 @@ const ItemList = (props ,ref) => {
   }));
 
   useEffect(()=>{
-    dispatch({type:FETCH_REQUEST})
+    dispatch({type:FETCH_REQUEST , payload:{page:1 ,limit:10}})
   },[])
   return (
     <div className="list__item" ref={listItemRef}>

@@ -14,8 +14,9 @@ function App() {
   const dispatch   = useDispatch();
   // Theme
   const {theme} = useContext(ThemeContext);
-  const requestUpdate = (id,name)=> inputRef.current.changeTodoByInput(id,name);
+  const requestUpdate = ({id,name})=> inputRef.current.changeTodoByInput({id,name});
   const filterData = (data) => listRef.current.displayDataFilter(data);
+  dispatch({type:"SEARCH_STATUS_FAILURE"})
   return ( 
    <div className={`toggle-${theme === THEME.dark ? THEME.dark : THEME.light }`}>
     <Toggle />

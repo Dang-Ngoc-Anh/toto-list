@@ -1,20 +1,23 @@
-import {useEffect, useState } from "react"
+import {useEffect, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import { FETCH_REQUEST } from "../../Utils/utils";
 let isGreeting = false;
 export const useSroll = (data , ref)=>{
   const [dataScroll , setDataScroll] = useState(data);
-  const [page , setPage] = useState(1);
+  const page = useRef(1);
   const [isLoading , setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const fetchData = () => {
     setIsLoading(true);
+    page.current = page.current+1
     setTimeout(() => {
-      const newData = data.slice(page * 5, (page + 1) * 5);
-      setDataScroll(pre => [...pre , ...newData]);
+      dispatch({type:FETCH_REQUEST, payload:{page:page.current, limit:10}});
+      setDataScroll(pre => [...pre , ...data]);
       setIsLoading(false);
       isGreeting = false;
-      setPage((prevPage) => prevPage + 1);
       // Đẩy thanh scroll lên
       window.scrollTo({
-        top: ref.current.offsetTop - 20, // Điều chỉnh giảm độ cao để thanh scroll không che phủ hoàn toàn nội dung mới
+        top: ref.current.offsetTop - 10, // Điều chỉnh giảm độ cao để thanh scroll không che phủ hoàn toàn nội dung mới
         behavior: "smooth",
       });
     }, 1000); 

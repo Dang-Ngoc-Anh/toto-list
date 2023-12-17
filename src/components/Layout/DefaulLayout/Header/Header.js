@@ -1,24 +1,27 @@
-import React, {  forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, {  forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import uuid from "react-uuid";
 import "./header.css";
-import { POST_REQUEST, actionStatus } from "../../../../Utils/utils";
+import { POST_REQUEST, PUT_REQUEST, actionStatus } from "../../../../Utils/utils";
 import { useDispatch } from "react-redux";
 import { postData, putDataById } from "../../../../store/actions/actionsData";
 const Header = (props,ref) => {
   const dispatch = useDispatch();
   const [result , setResult ] = useState('');
-  const [idUpdate, setIdUpdate] = useState(undefined);
+  // const [idUpdate, setIdUpdate] = useState(undefined);
   const inputRef = useRef();
-
+  const idUpdateRef = useRef(undefined);
+  useEffect(()=>{
+    console.log(idUpdateRef);
+  })
   const handleKeyUp = (e,result) =>{
     const objInput = {
       name: result,
       done: actionStatus.ACTIVCE,
     };
+    console.log(objInput);
     if (e.keyCode === 13 && result) {
-      if(idUpdate) {
-        dispatch(putDataById(idUpdate,result));
-        setIdUpdate(undefined)
+      if(idUpdateRef) {
+        dispatch({type:PUT_REQUEST , payload:{id:idUpdateRef.current ,name:result}});
         inputRef.current.focus();
       }else 
           {
@@ -31,8 +34,8 @@ const Header = (props,ref) => {
   }
 
   useImperativeHandle(ref, () => ({
-    changeTodoByInput(id,name){
-      setIdUpdate(id);
+    changeTodoByInput({id,name}){
+      idUpdateRef.current = id;
       setResult(name);
       inputRef.current.focus();
     },

@@ -1,9 +1,10 @@
 import { redirect } from "react-router-dom";
-import { urlTodo as url } from "../Utils/utils";
+import { urlTodo as url, urlTodo } from "../Utils/utils";
+import {call} from 'redux-saga/effects'
 import axios from "axios"
-export const getData = async ()=>{
+export function* getData({page,limit}){
     try {
-        const res = await axios.get(url);
+        const res = yield call(()=>axios.get(`${urlTodo}?page=${page}&limit=${limit}`));
         if(res.status >= 200 && res.status <= 299)
             return res.data;
         else if(res.status === 404)
@@ -13,9 +14,9 @@ export const getData = async ()=>{
     }
 }
 
-export const getDataById = async (id)=>{
+export function* getDataById  (id){
     try {
-        const res = await axios.get(`${url}/${id}`);
+        const res = yield call(()=>axios.get(`${url}/${id}`));
         if(res.status >= 200 && res.status <= 299)
             return res.data;
     } catch (error) {
@@ -23,9 +24,9 @@ export const getDataById = async (id)=>{
     }
 }
 
-export const addData = async(data)=>{
+export function* addData(data){
     try{
-        const res  = await axios.post(url, data);
+        const res  = yield call(()=>axios.post(url, data));
         if(res.status >= 200 && res.status <= 299)
             return res.data;
         else if(res.status >= 500 && res.status <= 599)
@@ -35,9 +36,9 @@ export const addData = async(data)=>{
     }
 }
 
-export const updateDataById = async ( id , value)=>{
+export function* updateDataById ({id,name}){
     try{
-        const res  = await axios.put(`${url}/${id}` , value);
+        const res  = yield call( ()=>axios.put(`${url}/${id}`, {name}));
         if(res.status >= 200 && res.status <= 299)
         return res.data;
     }catch(err){
@@ -45,12 +46,43 @@ export const updateDataById = async ( id , value)=>{
     }
 }
 
-export const deleteDataById = async ( id)=>{
+export function* deleteDataById ( id){
     try{
-        const res  = await axios.delete(`${url}/${id}`);
+        const res  = yield call(()=>axios.delete(`${url}/${id}`));
         if(res.status >= 200 && res.status <= 299)
         return res.data;
     }catch(err){
         throw err;
     }
+}
+
+export function* searchStatus({payload}){
+    const url = new URL(urlTodo); 
+    url.searchParams.append("done" , payload.done);
+    const res = yield call(()=> axios.get(url));
+    return res.data;
+}
+
+export function* getLengthDataByStatus({payload}){
+    const res = yield axios({
+        method:'get',
+        url:urlTodo,
+        data:payload.done,
+
+    })
+}
+
+export function* restoreDone(done){
+    
+}
+
+export function* updateDoneById({id,done}){
+    const res = yield call(()=>{
+        return axios({
+            method:'put',
+            url:`${urlTodo}/${id}`,
+            data:{done}
+        })
+    })
+    return res.data
 }
