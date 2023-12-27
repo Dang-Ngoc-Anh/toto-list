@@ -1,27 +1,25 @@
 import React, {  forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import uuid from "react-uuid";
 import "./header.css";
-import { POST_REQUEST, PUT_REQUEST, actionStatus } from "../../../../Utils/utils";
+import { FETCH_REQUEST_By_ID, POST_REQUEST, PUT_REQUEST, actionStatus } from "../../../../Utils/utils";
 import { useDispatch } from "react-redux";
 import { postData, putDataById } from "../../../../store/actions/actionsData";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 const Header = (props,ref) => {
   const dispatch = useDispatch();
   const [result , setResult ] = useState('');
-  // const [idUpdate, setIdUpdate] = useState(undefined);
   const inputRef = useRef();
-  const idUpdateRef = useRef(undefined);
-  useEffect(()=>{
-    console.log(idUpdateRef);
-  })
+  const {id} = useParams();
+  const url = useLocation();
+  const actionType = url.pathname.split('/');
   const handleKeyUp = (e,result) =>{
     const objInput = {
       name: result,
       done: actionStatus.ACTIVCE,
-    };
-    console.log(objInput);
-    if (e.keyCode === 13 && result) {
-      if(idUpdateRef) {
-        dispatch({type:PUT_REQUEST , payload:{id:idUpdateRef.current ,name:result}});
+  };
+    if (e.keyCode === 13) {
+      if(id) {
+        dispatch({type:PUT_REQUEST , payload:{id:id ,name:result}});
         inputRef.current.focus();
       }else 
           {
@@ -30,16 +28,15 @@ const Header = (props,ref) => {
           }
     }else
       inputRef.current.focus();
-
   }
 
-  useImperativeHandle(ref, () => ({
-    changeTodoByInput({id,name}){
-      idUpdateRef.current = id;
-      setResult(name);
-      inputRef.current.focus();
-    },
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   changeTodoByInput({id,name}){
+  //     id.current = id;
+  //     setResult(name);
+  //     inputRef.current.focus();
+  //   },
+  // }));
 
   return (
     <div className={`header`}>

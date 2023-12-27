@@ -2,26 +2,30 @@ import React, { useEffect, useState } from "react";
 import './footer.css'
 import {useSelector ,useDispatch } from "react-redux";
 import { clearStatus } from "../../../../store/actions/actionsData";
-const Footer = (props) => {
+import {useNavigate}from "react-router-dom"
+const Footer = () => {
   const todos = useSelector(state => state.todos);
   const  [count ,setCount] = useState(0);
-  const {filterData} = props
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const filterAll = ()=>{
-      setCount(todos.length)
-      return filterData(todos);
+      setCount(todos.length);
+      navigate(`/todos`)
   }
   const filterActive = ()=>{
     const dataActive = todos.filter(item => !item.done)
+    if(dataActive){
+        navigate(`/todos?done=false`)
+    }
     setCount(dataActive.length)
-    return filterData(dataActive);
-
   } 
   
   const filterComplete = ()=>{
     const dataComplete = todos.filter(item => item.done)
+    if(dataComplete){
+      navigate(`/todos?done=true`)
+    }
     setCount(dataComplete.length)
-    return filterData(dataComplete);
   }
 
   const filterClearComplete = ()=>{

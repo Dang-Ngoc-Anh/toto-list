@@ -4,7 +4,7 @@ import {call} from 'redux-saga/effects'
 import axios from "axios"
 export function* getData({page,limit}){
     try {
-        const res = yield call(()=>axios.get(`${urlTodo}?page=${page}&limit=${limit}`));
+        const res = yield call(axios.get,`${urlTodo}?page=${page}&limit=${limit}`);
         if(res.status >= 200 && res.status <= 299)
             return res.data;
         else if(res.status === 404)
@@ -16,7 +16,7 @@ export function* getData({page,limit}){
 
 export function* getDataById  (id){
     try {
-        const res = yield call(()=>axios.get(`${url}/${id}`));
+        const res = yield call(axios.get ,`${url}/${id}`);
         if(res.status >= 200 && res.status <= 299)
             return res.data;
     } catch (error) {
@@ -26,7 +26,7 @@ export function* getDataById  (id){
 
 export function* addData(data){
     try{
-        const res  = yield call(()=>axios.post(url, data));
+        const res  = yield call(axios.post, url, data);
         if(res.status >= 200 && res.status <= 299)
             return res.data;
         else if(res.status >= 500 && res.status <= 599)
@@ -38,7 +38,7 @@ export function* addData(data){
 
 export function* updateDataById ({id,name}){
     try{
-        const res  = yield call( ()=>axios.put(`${url}/${id}`, {name}));
+        const res  = yield call(axios.put,`${url}/${id}`, {name});
         if(res.status >= 200 && res.status <= 299)
         return res.data;
     }catch(err){
@@ -48,7 +48,7 @@ export function* updateDataById ({id,name}){
 
 export function* deleteDataById ( id){
     try{
-        const res  = yield call(()=>axios.delete(`${url}/${id}`));
+        const res  = yield call(axios.delete, `${url}/${id}`);
         if(res.status >= 200 && res.status <= 299)
         return res.data;
     }catch(err){
@@ -59,17 +59,18 @@ export function* deleteDataById ( id){
 export function* searchStatus({payload}){
     const url = new URL(urlTodo); 
     url.searchParams.append("done" , payload.done);
-    const res = yield call(()=> axios.get(url));
+    const res = yield call(axios.get, url);
     return res.data;
 }
 
 export function* getLengthDataByStatus({payload}){
-    const res = yield axios({
+    const res = yield axios(()=> {
+        return {
         method:'get',
         url:urlTodo,
         data:payload.done,
-
-    })
+    }
+})
 }
 
 export function* restoreDone(done){

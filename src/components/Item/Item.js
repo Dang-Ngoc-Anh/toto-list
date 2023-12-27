@@ -4,6 +4,7 @@ import "./item.css";
 import { changeStatus, deleteDataById } from "../../store/actions/actionsData";
 import { useDispatch } from "react-redux";
 import { produce } from "immer";
+import { Link } from "react-router-dom";
 const Item = ({ props,requestUpdate }) => {
   const { id, name, done } = props
   const itemRef = useRef(null);
@@ -13,13 +14,9 @@ const Item = ({ props,requestUpdate }) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id)=>{
-    dispatch({type:DELETE_REQUEST,payload:id});
+      dispatch({type:DELETE_REQUEST,payload:id});
   }
 
-  const handleUpdate = (id ,name)=>{
-    requestUpdate({id,name})
-  }
- 
   const move = (e)=>{
       const {clientX , clientY} = e
         style = {
@@ -52,13 +49,16 @@ const Item = ({ props,requestUpdate }) => {
         />
       <div className={done === actionStatus.COMPLETE ? "complete" : ""} >{name}</div>
       <div>
-        <button className="btn btn-update px-2" onClick={() => handleUpdate(id,name)}
-          >
-          <i class="fa-solid fa-pen"></i>
-        </button>
+        <Link to={`/todos/update/${id}`}>
+          <button className="btn btn-update px-2">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        </Link>
+       <Link  to={`/todos/delete/${id}`}>
         <button className="btn btn-delete px-2" onClick={()=>handleDelete(id)}>
-          <i class="fa-solid fa-trash-can"></i>
-        </button>
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+       </Link>
       </div>
       </div>
     </div>
